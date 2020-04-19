@@ -182,7 +182,7 @@ local display_gui_click = {
 			end
 			event.element.style = "display_button_selected"
 			event.element.ignored_by_interaction = true
-			local map_button = player.gui.screen[DID.custom_gui]["display-header"]["display-map-marker"]
+			local map_button = player.gui.screen[DID.custom_gui]["display-map-marker"]
 			if map_button then
 				if not map_button.enabled then
 					map_button.enabled = true
@@ -285,6 +285,7 @@ local function create_new_display_gui(player, selected)
 		direction = "vertical",
 		style = "display_frame",
 	}
+	frame.style.width = 250
 	
 	-- update frame location if cached
 	if get_global_player_info(player.index,"display_gui_location") then
@@ -299,7 +300,6 @@ local function create_new_display_gui(player, selected)
 		direction = "horizontal",
 		name = "display-header",
 	}
-	header.style.bottom_padding = -4
 	header.style.horizontally_stretchable = true
 
 
@@ -309,34 +309,43 @@ local function create_new_display_gui(player, selected)
 		caption = "Test GUI",
 		style = "frame_title",
 	}
-	header.style.bottom_padding = 5
 
 	local filler = header.add {
 		type = "empty-widget",
 		style = "draggable_space_header",
 	}
-	filler.style.natural_height = 24
+
 	filler.style.horizontally_stretchable = true
 	filler.drag_target = frame
+	filler.style.natural_height = 22
 
 	local container = frame.add {
 		type = "frame",
+		name = "container",
 		direction = "vertical",
+		style = "inside_shallow_frame",
+		vertical_flow_style = {
+			type = "vertical_flow_style",
+		}
 	}
+	container.style.padding = 10
+	container.style.horizontally_stretchable = true
 
 	local signal_flow = container.add {
 		type = "flow",
 		name = "signal-flow",
 	}
 	signal_flow.style.vertical_align = "center"
-	signal_flow.style.bottom_padding = 5
+	signal_flow.style.bottom_padding = 10
 
-	signal_flow.add {
+	local icon_button = signal_flow.add {
 		type = "choose-elem-button",
 		elem_type = "signal",
 		elem_value = "",
 		size = 32,
 	}
+	icon_button.style.right_margin = 5
+
 
 	signal_flow.add {
 		type = "label",
@@ -345,15 +354,21 @@ local function create_new_display_gui(player, selected)
 
 	local map_flow = container.add {
 		type = "flow",
+		name = "map-flow",
 	}
+	map_flow.style.vertical_align = "center"
 
 	local map_button = map_flow.add {
-		name = "display-map-marker-large",
+		name = "display-map-marker",
 		type = "sprite-button",
 		sprite = "display-map-marker",
 		style = markers and "display_small_button_active" or "display_small_button",
 		tooltip = {"controls.display-map-marker"},
 	}
+
+	map_button.style.height = 35;
+	map_button.style.width = 35;
+	map_button.style.right_margin = 5;
 
 	map_flow.add {
 		type = "label",

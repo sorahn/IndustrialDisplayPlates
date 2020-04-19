@@ -284,17 +284,6 @@ data:extend({
     {
         type = "sprite",
         name = "display-map-marker",
-        filename = get_icon_path("map-marker",32),
-        priority = "extra-high",
-        width = 32,
-        height = 32,
-        mipmap_count = 2,
-		scale = 0.5,
-		flags = {"gui-icon"},
-    },
-    {
-        type = "sprite",
-        name = "display-map-marker-large",
         filename = get_icon_path("map-marker",64),
         priority = "extra-high",
         width = 64,
